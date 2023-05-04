@@ -1,0 +1,469 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+
+<style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; --title-bar-height:20px; }
+.mac-os-11 { --title-bar-height:28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, h5 { white-space: pre-wrap; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+thead, tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+svg { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; border-color: transparent !important; padding-top: 0px !important; padding-bottom: 0px !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  #write > p:nth-child(1) { margin-top: 0px; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+  figure { overflow-x: visible; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.reversefootnote { font-family: ui-monospace, sans-serif; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex:2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; overflow-wrap: anywhere; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+mjx-container { break-inside: avoid; }
+
+
+p {
+    font-family: firacode, lxgw, sans-serif;
+}
+
+pre {
+    font-family: firacode !important;
+    font-size: 14px !important;
+    word-spacing: normal !important;
+}
+
+#write {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 30px;
+    padding-bottom: 100px;
+    color: var(--alice-font-color);
+}
+
+@media only screen and (min-width: 1400px) {
+    #write {
+        max-width: 1024px;
+    }
+}
+
+@media only screen and (min-width: 1800px) {
+    #write {
+        max-width: 1200px;
+    }
+}
+
+
+
+
+
+
+
+html {
+    --alice-bg-color: rgb(249, 245, 232);
+    --alice-title-color: #0079D2;
+    --alice-font-color: rgb(102, 55, 24);
+    --alice-important-color: rgb(162, 42, 42);
+    background: var(--alice-bg-color);
+    font-size: 18px;
+    font-family: "Helvetica";
+}
+
+h1 {
+    margin: 0 auto;
+    margin-top: 1.2em;
+    margin-bottom: 0.4em;
+    padding: 4px 2em;
+    line-height: 1.35;
+    font-size: 2.25em;
+    text-align: center;
+    background-color: rgb(0, 132, 255);
+    width: max-content !important;
+    color: #fff;
+}
+
+h2 {
+    border-left: 3px solid rgba(15, 76, 129, 1);
+    padding-left: 1em;
+}
+
+h2,
+h3 {
+    color: var(--alice-title-color);
+}
+
+strong {
+    color: #a22a2a;
+    font-weight: bold;
+}
+
+code {
+    background: rgba(235, 235, 235, 0.35);
+    color: #48b456;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-family: firacode;
+    border-radius: 5px;
+}
+
+.CodeMirror {
+    box-sizing: border-box;
+    margin: 1.6em 0;
+    padding: 0.4em 0 0.4em 1.2em;
+    border-left: 4px solid #16b0ff;
+    min-height: 20px;
+
+}
+
+.CodeMirror.cm-s-inner {
+    background-color: #fff;
+}
+
+img {
+    border-radius: 1em;
+}
+
+li {
+    color: #059CEF;
+}
+
+li span {
+    color: #535277;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.3em;
+}
+
+h3 {
+    font-size: 1.2em
+}
+
+h4 {
+    font-size: 1.1em;
+
+}
+
+h5 {
+    font-size: 1.05em;
+    color: #a22a2a;
+    font-weight: bold;
+}
+
+h6 {
+    font-size: 1em;
+    font-family: lxgw;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+h2,
+h3 {
+    line-height: 1.5em;
+    margin-top: 1.8em;
+    margin-bottom: 0.5em;
+}
+
+hr {
+    margin: 38px 0;
+    border: none;
+    border-bottom: 1px dashed rgba(205, 205, 205, 0.35);
+    color: rgba(205, 205, 205, 0.35);
+    height: 1px;
+    line-height: 1px;
+    overflow-y: hidden;
+}
+
+.md-toc {
+    border-radius: 5px;
+    border: 1px solid;
+    margin: 27px 0 47px 0;
+    padding: 10px 0;
+}
+
+a {
+    margin: 0 2px;
+    color: #d14508;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+blockquote {
+    box-sizing: border-box;
+    margin: 1.6em 0;
+    padding: 0 0 0 1.2em;
+    border-left: 4px solid #16b0ff;
+    color: #888888;
+    min-height: 20px;
+}
+
+
+table {
+    width: 100%;
+    font-size: 1.125rem;
+}
+
+table>thead>tr>th,
+table>thead>tr>td,
+table>tbody>tr>th,
+table>tbody>tr>td,
+table>tfoot>tr>th,
+table>tfoot>tr>td {
+    padding: 12px;
+    line-height: 1.2;
+    vertical-align: top;
+    border-top: 1px solid var(--alice-font-color);
+}
+
+table tbody {
+    border-bottom: 2px solid var(--alice-font-color);
+}
+
+table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid var(--alice-font-color);
+}
+
+table>caption+thead>tr:first-child>th,
+table>caption+thead>tr:first-child>td,
+table>colgroup+thead>tr:first-child>th,
+table>colgroup+thead>tr:first-child>td,
+table>thead:first-child>tr:first-child>th,
+table>thead:first-child>tr:first-child>td {
+    border-top: 0;
+}
+
+table>tbody+tbody {
+    border-top: 2px solid var(--alice-font-color);
+}
+
+
+</style><title>IoT笔记</title>
+</head>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+<div id='write'  class=''><div class='md-toc' mdtype='toc'><p class="md-toc-content" role="list"><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n3"><a class="md-toc-inner" href="#iot笔记">IoT笔记</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n6"><a class="md-toc-inner" href="#计算机网络中的一些名词">计算机网络中的一些名词</a></span><span role="listitem" class="md-toc-item md-toc-h2" data-ref="n23"><a class="md-toc-inner" href="#关于shodan">关于shodan</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n24"><a class="md-toc-inner" href="#控制台初始化shodan">控制台初始化shodan</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n55"><a class="md-toc-inner" href="#shodan常用搜索语法">shodan常用搜索语法</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n88"><a class="md-toc-inner" href="#控制台指令">控制台指令</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n109"><a class="md-toc-inner" href="#计算机网络">计算机网络</a></span><span role="listitem" class="md-toc-item md-toc-h3" data-ref="n130"><a class="md-toc-inner" href="#virualbox虚拟机">VirualBox虚拟机</a></span></p></div><p>&nbsp;</p><h2 id='iot笔记'><span>IoT笔记</span></h2><hr /><p>&nbsp;</p><h3 id='计算机网络中的一些名词'><span>计算机网络中的一些名词</span></h3><ol start='' ><li><p><span>DoS：Denial of Service拒绝服务攻击</span></p></li><li><p><span>DDoS：Distributed Denial of Service分布式拒绝服务攻击</span></p></li><li><p><span>Mirai Botnet：被捕获的用于发起攻击的物联网设备</span></p></li><li><p><span>Mirai:恶意软件，能够感染智能设备，将其转变为远程控制的机器人或“僵尸”并祖成网络</span></p></li><li><p><span>Three Interaction Protocol：三次握手协议</span></p></li><li><p><span>TCPDUMP：网络分析工具</span></p></li><li><p><span>彩虹表：Miral Botnet 密码本</span></p></li></ol><hr /><h2 id='关于shodan'><span>关于shodan</span></h2><h3 id='控制台初始化shodan'><span>控制台初始化shodan</span></h3><ol start='' ><li><p><span>Init:</span></p><ol start='' ><li><p><span>关闭网络代理</span></p></li><li><p><span>pip install shodan</span></p></li><li><p><span>init shodan </span><API></p></li></ol></li><li><p><span>API指令：</span></p><ol start='' ><li><p><span>返回搜索数量：</span></p><p><span>shodan cout &quot;搜索条件&quot;</span></p></li><li><p><span>返回指定结果：</span></p><p><span>shodan search --fields [各种信息，如：ip_str,port,org,hostnames] &quot;搜索条件&quot;</span></p></li><li><p><span>下载指定内容的搜索结果</span></p><p><span>shodan download result &quot;搜索条件&quot;</span></p></li><li><p><span>解析文件，获得搜索结果</span></p><p><span>shodan parse --fields [想要获取的信息] --separator , result.json.gz</span></p></li><li><p><span>搜索指定IP的信息</span></p><p><span>shodan host [IP]</span></p></li></ol></li></ol><p><span>ps:通过URL获得IP地址：</span>
+<span>命令行输入nslookup，再输入URL地址</span></p><hr /><h3 id='shodan常用搜索语法'><span>shodan常用搜索语法</span></h3><ol start='' ><li><p><span>限定国家和城市</span>
+<span>限定国家country:&quot;CN&quot;</span>
+<span>限定城市city:&quot;ShangHai&quot;</span></p></li><li><p><span>限定主机名或域名</span>
+<span>hostname:.org</span>
+<span>hostname:&quot;google&quot;</span>
+<span>hostname:baidu.com</span></p></li><li><p><span>限定组织或机构</span>
+<span>org:&quot;alibaba&quot;</span></p></li><li><p><span>限定系统OS版本</span>
+<span>os:&quot;Windows Server 2008 R2&quot;</span>
+<span>os:&quot;Windows 7 or 8&quot;</span>
+<span>os:&quot;Linux 2.6.x&quot;</span></p></li><li><p><span>限定端口</span>
+<span>port:22</span>
+<span>port:80</span></p></li><li><p><span>指定网段</span>
+<span>net:&quot;59.56.19.0/24&quot;</span></p></li><li><p><span>指定使用的软件或产品</span>
+<span>product:&quot;Apache httpd&quot;</span>
+<span>product:&quot;nginx&quot;</span>
+<span>product:&quot;Microsoft IIS httpd&quot;</span>
+<span>product:&quot;mysql&quot;</span></p></li><li><hr /><p><span>指定CVE漏洞编号</span>
+<span>vuln:&quot;CVE-2014-0723&quot;</span></p></li><li><p><span>指定网页内容</span>
+<span>http.html:&quot;hello world&quot;</span></p></li><li><p><span>指定网页标题</span>
+<span>http.title:&quot;hello&quot;</span></p></li><li><p><span>指定返回响应码</span>
+<span>http.status:200</span></p></li><li><p><span>指定返回中的server类型</span>
+<span>http.server:Apache/2.4.7</span>
+<span>http.server:PHP</span></p></li><li><p><span>指定地理位置</span>
+<span>geo:&quot;31.25,121.44&quot;</span></p></li><li><p><span>指定ISP（网络服务）供应商</span>
+<span>isp:&quot;China Telecom&quot;</span></p></li></ol><p><span>for example:</span>
+<span>ssh default password</span>
+<span>ssh default password country:&quot;JP&quot;</span>
+<span>FTP anon successful</span></p><hr /><h3 id='控制台指令'><span>控制台指令</span></h3><ol start='' ><li><p><span>查询计算机IP地址：ipconfig</span></p><ol start='' ><li><p><span>IPv4 地址 . . . . . . . . . . . . : 192.168.31.8</span></p><ol start='' ><li><p><span>IP地址有IPv4和IPv6 两大类，使用的绝大多数的IP地址是其中的IPv4地址。一个IPv4地址可以分为网络地址和主机地址两部分，其中网络地址可以使用如下形式描述：192.168.0.0/16，其中斜线后的数字表示网络地址部分的长度是16位，这对应2个字节，即网络地址部分是192.168.0.0。</span></p></li></ol></li><li><p><span>子网掩码  . . . . . . . . . . . . : 255.255.255.0</span></p><ol start='' ><li><hr /><p><span>用来指明一个</span><a href='https://baike.baidu.com/item/IP地址'><span>IP地址</span></a><span>的哪些位标识的是</span><a href='https://baike.baidu.com/item/主机/455151'><span>主机</span></a><span>所在的子网，以及哪些位标识的是主机的位掩码。子网掩码不能单独存在，它必须结合IP地址一起使用。左边是网络位，用二进制数字“1”表示，1的数目等于网络位的长度；右边是主机位，用二进制数字“0”表示，0的数目等于主机位的长度。本机IP+子网掩码为：192.168.31.8/24</span></p></li></ol></li><li><p><span>默认网关. . . . . . . . . . . . . : 192.168.31.1</span></p></li></ol></li><li><p>&nbsp;</p></li></ol><hr /><h3 id='计算机网络'><span>计算机网络</span></h3><ol start='' ><li><p><span>TCP/IP协议栈</span></p><ol start='' ><li><p><span>定义了通讯实体之间：即网络中各层（应用层、传输层、网络层、链路层和物理层）协议的总和，控制信息的意义、交换报文的格式和顺序、事件发生的顺序(语义、语法和时序)</span></p></li></ol></li><li><p><span>TCP/IP应用层</span></p></li><li><p><span>TCP/IP传输层</span></p></li><li><p><span>TCP/IP网络层：</span></p><ol start='' ><li><p><span>点分十进制记法</span></p></li><li><p><span>IP地址分为两个部分：网络地址（同一网络地址传出的信号可被相互接受（广播域））、主机地址（在某个网络地址中的具体位置）</span></p></li></ol></li><li><p>&nbsp;</p></li></ol><hr /><h3 id='virualbox虚拟机'><span>VirualBox虚拟机</span></h3><ol start='' ><li><p><span>前言：使用管理员身份运行、导入虚拟机</span></p></li><li><p><span>开启给终端使用指令：</span></p><ol start='' ><li><p><span>查询IP地址：ifconfig</span></p></li><li><p><span>配置虚拟机的IP地址：ifconfig eth0 [IP+子网掩码]</span></p></li><li><p><span>通过ssh连入树莓派：</span></p></li></ol></li><li><p><span>nmap -sC -sV -oA mirai 172.16.40.173 扫描寻找漏洞指令</span></p></li><li><p><span>添加或删除用户：</span></p><ul><li><p><span>sudo adduser [用户名] [组名]</span></p></li><li><p><span>sudo deluser [用户名]</span></p></li></ul></li><li><p><span>查看账户：</span></p><ul><li><p><span>查看所有账户：cat /etc/passed</span></p></li><li><p><span>查看现在活跃的账户：w</span></p></li></ul></li><li><p><span>编辑位于 /etc/ssh 目录中的 sshd_config 文件，限制允许使用 SSH 访问此设备的用户</span></p><ul><li><p><span>sudo nano /etc/ssh/sshd_config</span></p></li><li><p><span>在sshd_config文件末尾添加以下内容：</span></p><p><span>AllowUsers kingbob （允许访问的账户）或者DenyUsers kevin（限制访问的对象）  </span></p></li></ul></li><li><p>&nbsp;</p></li></ol><hr /><p><span>ls -l获取的文件信息</span></p><p><img src="https://img-blog.csdnimg.cn/20210206190527133.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xpYW93ZW54aW9uZw==,size_16,color_FFFFFF,t_70#pic_center" referrerpolicy="no-referrer" alt="ls -l获取的文件信息"></p><p><img src="C:\Users\REVERIE\AppData\Roaming\Typora\typora-user-images\image-20220608195418937.png" referrerpolicy="no-referrer" alt="image-20220608195418937"></p><p><strong><span>理解chroot和qemu的使用概念</span></strong></p><p>&nbsp;</p></div></div>
+</body>
+</html>
