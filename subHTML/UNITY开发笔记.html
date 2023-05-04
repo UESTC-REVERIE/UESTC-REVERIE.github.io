@@ -1,0 +1,845 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>UNITY开发笔记</title>
+</head>
+<body><h2 id='unity开发笔记'>Unity开发笔记</h2>
+<p>&nbsp;</p>
+<h3 id='什么是net'>什么是.NET</h3>
+<ol start='' >
+<li><p>.NET是微软公司下的一个开发平台，.NET核心就是.NET Framwork（.NET框架）是.NET程序开发和运行的环境，在这个平台下可以用不同的语言进行开发，因为.NET是跨语言的一个平台。语言可以是C#,f#,j#,<a href='https://link.zhihu.com/?target=http%3A//vb.net'>vb.net</a>等等。JAVA和.NET不同的一点是java是跨平台的，不跨语言的。</p>
+</li>
+<li><p>.NET框架的组成分为两部分：</p>
+<ul>
+<li>CLR：公共语言运行时（Common Language Runtime），提供内在管理，代码安全性检测等功能。</li>
+<li>FLC：.NET框架类库（.NET Framework Class Library）,提供大量应用类库，类库中有很多线程的资源可使用（比如：类，方法，属性），提高开效率。</li>
+
+</ul>
+</li>
+<li><p>.NET运行的机制流程
+各种语言（c#,F#,j#等对应的源程序）——&gt;经过CLS,CTS第一次编译——&gt;统一规范语言（中间语言）MSIL(.EXE,.DLL)——&gt;JIT第二次编译——&gt;二进制语言——&gt;运行在CPU中</p>
+<p>java的运行机制：
+java——&gt;编译——&gt;字节码文件（.CLASS）——&gt;jvm解释（jvm虚拟机）——&gt;二进制语言</p>
+</li>
+
+</ol>
+<h3 id='tips'>TIPS</h3>
+<ol start='' >
+<li><p>调整摄像头，将投影模式调整为正交就可以显示出显示范围、调整视图大小</p>
+</li>
+<li><p>Time.deltaTime 计算上一帧运行经过的时间，广泛运用于角色的移动，给定速度（一般为每帧移动的距离）乘以该值，表示物体每秒移动的距离（不受帧率影响）</p>
+</li>
+<li><p>Physics2D.OverlapCircle等Overlap方法支持跨图层检测碰撞体（还可以通过添加第四个变量选择是否要命中触发器）</p>
+</li>
+<li><p><a href='https://docs.unity.cn/cn/current/ScriptReference/Animator.html'>Animator</a>.GetCurrentAnimatorStateInfo（0）（参数为层索引）返回包含有关当前动画状态的信息</p>
+</li>
+<li><p>animator.getcurrentanimatorstateinfo(layer).normalizedtime;获取当前动画的播放进度（0-1之间）</p>
+</li>
+<li><p>GameObject.GetComponent&lt;&gt;获取某游戏对象上的相应组件</p>
+</li>
+<li><p>collision2D类型要获取组件信息要用collider 即collision.collider.GetComponent&lt;&gt;</p>
+</li>
+<li><p><strong>协程：</strong>当我们开启了一个协程后，主函数会开始执行协程中的内容，直到协程被暂停。协程被暂停后会立即返回到主函数，并继续执行主函数的剩余部分，直到暂停状态结束，协程恢复执行。</p>
+</li>
+<li><p>当希望想静态类那样直接使用某个非静态类中的方法时，可以在该类中实例化一个本类静态对象，并指向自己(this)</p>
+</li>
+<li><p>确保一个控制中心只实例化一个，或者想使用同一个对象时，有很多方法，上述就是其中一例，还可以通过在控制中心建立一个储存其他应用类的容器，如：状态机中的FSM，只实例化确定数的抽象类并向其内部传递FSM 。</p>
+<p>也可以通过继承<code>[ScriptableObject]</code>将类转化为可创建的对象<code>CreateAssetMenu</code>，通过序列化传递给其他类</p>
+</li>
+
+</ol>
+<h3 id='构建场景'>构建场景</h3>
+<h5 id='背景参数设置'>背景参数设置</h5>
+<ol start='' >
+<li>Texture Type 选择Sprite(2D and UI)</li>
+<li>Pixel Per Unit 选择每个格子中像素点的个数</li>
+<li>设置Filter Mode为Point(no filter)保证为像素画原效果去掉过滤器</li>
+<li>设置Format为RGBA 32 bit</li>
+<li>图片中的Pixel Per Unit指的是每100像素转化为Unity中的多少单位，而相机的size指的是相机渲染高度，即屏幕高度的一半</li>
+
+</ol>
+<h5 id='创建瓦片'>创建瓦片</h5>
+<ol start='' >
+<li>在Hierarchy中添加新的2D元素 Tilemap</li>
+<li>在window窗口2D中打开Tile Palette(调色板)</li>
+<li>在Palette中创建新文件夹，储存瓦片</li>
+<li>将图片素材Sprite Mode选择为Multipe(构成元素为多元素)</li>
+<li>打开Editor,进行切割再拖拽导入Palette</li>
+
+</ol>
+<h5 id='关于camera'>关于Camera</h5>
+<ol start='' >
+<li>aspect属性是设置摄像机的视口比例，用于获取Camera视口的宽高比例</li>
+<li>有两种模式：正交模式（没有透视关系）和透视模式（符合近大远小）</li>
+
+</ol>
+<h5 id='parallax视差效果的实现'>Parallax视差效果的实现</h5>
+<ol start='' >
+<li><p>明确摄像机、被摄物体和场景之间的距离关系，以及距离产生的视差效果</p>
+</li>
+<li><p>物体的移动等于相机的移动再乘以视差</p>
+<ol start='' >
+    <img src="parallax.png" alt="image-20220404133314526" style="zoom:30%;" />
+<li>视差的计算公式可以理解为：物体距离被摄物体的距离占最远景或最近景的比例
+<!--注意图中摄像机位置处于负半轴，在下列代码中也默认此设定--></li>
+<li>被摄物体与摄像机绑定，与被摄物体等距的物体视差为0，此时该物体位置坐标不变，由于相机移动而产生移动效果</li>
+<li>相机的可视范围由near和far确定，最远处的物体视差为
+1，表现为没有移动（与相机的移动距离相同，相对静止），最近处的物体视差为-1，表现为以两倍的速度移动</li>
+
+</ol>
+</li>
+<li><p>具体代码如下</p>
+<pre><code class='language-c#' lang='c#'>
+    public Camera cam;
+    public Transform subject;
+    Vector2 startPosition;
+    Vector2 travel =&gt; (Vector2)cam.transform.position - startPosition;
+
+    float distanceFromSubject =&gt; transform.position.z - subject.position.z;
+    float clippingPlane =&gt; (cam.transform.position.z + (distanceFromSubject &gt; 0 ? cam.farClipPlane : cam.nearClipPlane));
+
+    float parrallaxFactor =&gt; Mathf.Abs(distanceFromSubject) / clippingPlane;
+    float startZ;
+
+    public void Start()
+    {
+        startPosition = transform.position;
+        startZ = transform.position.z;
+    }
+
+    public void Update()
+    {
+        Vector2 newPos = startPosition + travel * parrallaxFactor;
+        transform.position = new Vector3(newPos.x, newPos.y, startZ);
+    }
+</code></pre>
+<p>transform为当前背景，subject设定为玩家，cam为主摄像机</p>
+<p>&nbsp;</p>
+</li>
+
+</ol>
+<h5 id='实现滚动循环'>实现滚动循环</h5>
+<ol start='' >
+<p>设置或刷新物体位置的方法：</p>
+<p>相对父节点 </p>
+<pre><code class='language-cs' lang='cs'>transform.localPosition = new Vector3(x, y, z);
+</code></pre>
+<p>世界坐标</p>
+<pre><code class='language-cs' lang='cs'>transform.position = new Vector3(x, y, z);
+</code></pre>
+</ol>
+
+<h3 id='内置插件推荐'>内置插件推荐</h3>
+<p><em>指PackManager中Unity官方提供的插件</em></p>
+<h4 id='cinemachine--timeline'>Cinemachine &amp; Timeline</h4>
+<h4 id='ui-builder'>UI Builder</h4>
+<h3 id='编写脚本'>编写脚本</h3>
+<h4 id='脚本基础概念与解析'>脚本基础概念与解析</h4>
+<ol start='' >
+<li>脚本中默认的类MoneBehaviour是为了连接到Unity内部的内置类</li>
+<li>初始状态的两个函数——Start( )进行初始化和Update( )每帧都调用一次（帧更新）</li>
+
+</ol>
+<h4 id='animation动画制作'>Animation动画制作</h4>
+<ol start='' >
+<li><p>过程</p>
+<ol start='' >
+<li>首先在要制作动画的对象上添加Animator脚本</li>
+<li>在资源中添加新的Animator和Animation资源</li>
+<li>将Animator添加入对应的脚本空缺</li>
+<li>在点击相应的需要添加动画的对象的前提下，将动画资源拖入Animation制作相应动画</li>
+<li>在Animator中设置相应的动画执行条件</li>
+
+</ol>
+</li>
+<li><p>获取动画参数</p>
+<ol start='' >
+<li>首先通过public Animator [ ] 获取相应的控制器 </li>
+<li>可使用以下 Animator 类中的函数，从脚本为参数赋值：<a href='https://docs.unity.cn/cn/2018.4/ScriptReference/Animator.SetFloat.html'>SetFloat</a>、<a href='https://docs.unity.cn/cn/2018.4/ScriptReference/Animator.SetInteger.html'>SetInt</a>、<a href='https://docs.unity.cn/cn/2018.4/ScriptReference/Animator.SetBool.html'>SetBool</a>、<a href='https://docs.unity.cn/cn/2018.4/ScriptReference/Animator.SetTrigger.html'>SetTrigger</a> 和 <a href='https://docs.unity.cn/cn/2018.4/ScriptReference/Animator.ResetTrigger.html'>ResetTrigger</a>。</li>
+<li>定义<strong>AnimatorStateInfo</strong>类型可以通过实时更新<strong>GetCurruntAnimatorStateInfo</strong>（0）来获取当前动画播放的进度（通过<strong>normalizedTime</strong>（该动画的标准化时间）方法（0-1取值））</li>
+
+</ol>
+</li>
+<li><p>帧事件</p>
+<ol start='' >
+<li>添加帧事件进行的脚本要挂在相应对象（有Animator的对象）身上</li>
+
+</ol>
+</li>
+
+</ol>
+<h4 id='enemy敌人ai编写状态基）'>Enemy敌人AI编写（状态基）</h4>
+<h5 id='接口的概念'>接口的概念</h5>
+<ol start='' >
+<li>interface是面向对象编程语言中接口操作的关键字，功能是把所需成员组合起来，用来封装一定功能的集合。它好比一个模板，在其中定义了对象必须实现的成员，通过类或结构来实现它。接口不能直接实例化，即ICount ic=new iCount()是错的。接口不能包含成员的任何代码，只定义成员本身。</li>
+
+</ol>
+<h4 id='unity协同工具plasticscm'>Unity协同工具PlasticSCM</h4>
+<h6 id='解决合并问题'>解决合并问题</h6>
+<ol start='' >
+<li>下载合并插件</li>
+<li>一般情况下选择自动合并，可以自动合并两个分支中没有冲突的不同变化</li>
+<li>右键冲突，可以各个选择保存哪个的更改：其中保留源指的是保留要合并到的更改，保留目标更改指的是保留现在所选择分支的更改</li>
+
+</ol>
+<h4 id='unity场景相关api'>Unity场景相关API</h4>
+<ol start='' >
+<li><p>加载场景：</p>
+<ol start='' >
+<li>引用UnityEngine.SceneManagement</li>
+<li>获取当前场景层数的方法：SceneManager.GetActiveScene().buildIndex</li>
+<li>加载场景的方法：SceneManager.LoadScene([场景层数])</li>
+
+</ol>
+</li>
+<li><p>相机渲染滤镜Volume：</p>
+<ol start='' >
+<li><p>引用UnityEngine.Rendering</p>
+</li>
+<li><p>获取Volume中的其他部分： （以列表形式储存）</p>
+<pre><code class='language-c#' lang='c#'> List&lt;VolumeComponent&gt; list = myVolume.profile.components;
+</code></pre>
+</li>
+
+</ol>
+</li>
+
+</ol>
+<h4 id='onenablestartawake的区别'>OnEnable、Start、Awake的区别</h4>
+<ol start='' >
+<li><p><code>OnEnable</code>在脚本每次状态由false转变为true时调用：</p>
+<p>1、<code>GameObject</code>添加组件的时候，即<code>AddComponet</code><NewBehaviour> ；（包括将其作为<code>ScriptableObject</code>添加时）</p>
+<p>2、包含<code>NewBehaviour</code>的Prefab被实例化的时候；</p>
+<p>3、已添加<code>NewBehaviour</code>的<code>GameObject</code>由未激活到已激活的时候，即<code>setActive(true)</code>；</p>
+<p>4、<code>NewBehaviour</code>由不可用到可用的时候，即enabled=true（不用实例化对象，即挂载在Object上）。</p>
+</li>
+<li><p>Start     <br/>只在脚本第一次状态转变时调用，即对象的第一帧（必须实例化对象）</p>
+</li>
+<li><p>Awake     <br/>无论状态如何，在<strong>脚本对象</strong>实例化时调用一次（必须实例化对象）</p>
+</li>
+
+</ol>
+<h4 id='update）和fixupdate）的区别'>Update（）和FixUpdate（）的区别</h4>
+<ol start='' >
+<li>Update每帧更新一次，问题在于不同的设备不同时间每帧所用时间可能不同</li>
+<li>FixUpdate由Unity确定一个固定时间间隔刷新</li>
+
+</ol>
+<h4 id='scriptableobject'>ScriptableObject</h4>
+<p><em>A class you can derive from if you want to create objects that don&#39;t need to be attached to game objects.</em></p>
+<p><a href='https://blog.csdn.net/qq_46044366/article/details/124310241'>Unity进阶：ScriptableObject</a></p>
+<p><em>用途有：数据复用（prefab）/共享、配置文件、编辑器编辑</em></p>
+<ol start='' >
+<li><p>用来在编辑器模式下保存和存储数据到本地Assets下的，数据保存以后是可以共享的，就像纹理、shader等资源一样，是可以共享于当前整个工程和其它工程的</p>
+</li>
+<li><p>这个ScriptableObject在真机上不可修改的，就像我们不可以在游戏运行时修改一个shader资源的代码、不可以修改一个纹理资源的像素内容一样，而在Unity Editor里可以修改ScriptableObject是因为Unity的编辑器对它格式的支持</p>
+</li>
+<li><p>当我们在编辑模式下修改了继承自 ScriptableObject 对象的数据文件内容时，修改的数据将被保存到磁盘上(点击Play不会改变，但想要重启Unity依旧不变，需要手动SaveAsset保存到磁盘)。但是在发布运行后，即使在游戏中修改了 ScriptableObject 的数据，改后的数据并不会保存在本地，<strong>重新打开运行时数据并还是配置的初始数据</strong>。</p>
+</li>
+<li><p><strong>类似于普通的C# script类但可以在Unity Inspector窗口中编辑，可以通过menu/create实例化</strong></p>
+</li>
+<li><p>Prefab实例化不会创建新的ScriptableObject，而是所有实例引用ScriptableObject（在Asset中实例化的唯一一个）的形式</p>
+</li>
+<li><p>我们可以利用 ScriptableObject 数据文件来制作编辑器相关功能，比如制作 Unity 内置的技能编辑器、关卡编辑器等。因为内置编辑器只在编辑模式下运行，在编辑模式下 ScriptableObject 正好具有数据持久化的特性。</p>
+</li>
+<li><p>需要注意的是ScriptableObject只能引用资产（asset），引用了未被序列化的对象会出现Type mismatch的问题，因为CreateInstance这类方法创建实例，只是创建在内存中，不会写入磁盘，完整的向ScriptableObject对象添加资产的方法应该包括AssetDatabase.AddObjectToAsset，将资产嵌入到已经序列化好的资产中（一般添加到当前ScriptableObject中）</p>
+<pre><code class='language-c#' lang='c#'>public Node CreateNode(System.Type type){
+    Node node = ScriptableObject.CreateInstance(type) as Node;
+    //add unique guid for every node
+    node.name = type.Name;
+    node.guid = GUID.Generate().ToString();
+    nodes.Add(node);
+
+    AssetDatabase.AddObjectToAsset(node,this);
+    AssetDatabase.SaveAssets();
+
+    return node;
+
+}
+</code></pre>
+<p>&nbsp;</p>
+</li>
+
+</ol>
+<h4 id='静态方法和静态类'>静态方法和静态类</h4>
+<ol start='' >
+<li>静态方法类似于项目中的一些通用的工具方法，而静态类就像是专门用于储存这些工具的工具箱</li>
+<li>都不能实例化，静态类中只能存储静态方法</li>
+<li><strong>静态方法可以不通过实例化直接通过 <code>类名.方法名()</code> 来在其他方法中调用</strong></li>
+
+</ol>
+<h4 id='回调函数'>回调函数</h4>
+<p>	回调函数指的是在使用过程中，被当作其他函数的参数使用/调用的函数</p>
+<h4 id='泛型方法和泛型类'>泛型方法和泛型类</h4>
+<ol start='' >
+<li>类似于C++中的template（模板），同样是为了避免类型不同大量生成重载方法</li>
+<li><code>public void function&lt;T&gt; (T param) { }</code>在参数列表前添加声明，使用时需要声明参数名</li>
+<li><code>class list&lt;T&gt; { }</code>泛型类，在类中可以使用T作为变量类型</li>
+<li>同理也有泛型接口等</li>
+
+</ol>
+<h4 id='guid'>GUID</h4>
+<p>	Unity文件的唯一标识符</p>
+<h4 id='typecache'>TypeCache</h4>
+<ol start='' >
+<li><p>提供从加载到 Unity 域的程序集中进行快速类型提取的方法。</p>
+</li>
+<li><p>使用 <em>TypeCache</em> 可访问属性和派生的类型信息。此缓存允许从原生缓存数据中利用任意编辑器代码。</p>
+</li>
+<li><p>常见用例是在构建或扩展 Unity 编辑器时提取用特定属性标记的类型或用于扩展或实现特定类型的类。 在当前域中迭代类型的操作通常很慢，速度与类型数成线性关系。</p>
+</li>
+<li><p>为加速类型提取，编辑器在原生侧构建一个加速表，其中包含有关类型属性和派生类的信息。</p>
+<pre><code class='language-c#' lang='c#'>s_VolumeComponents = TypeCache.GetTypesDerivedFrom&lt;VolumeComponent&gt;().ToList();
+</code></pre>
+</li>
+
+</ol>
+<h4 id='dirtydata-脏数据'>DirtyData 脏数据</h4>
+<ol start='' >
+<li>Unity拥有一套DataBase，可以使用<code>EditorUtility.SetDirty(object);</code>将数据标记为脏数据，标记数据已改变</li>
+<li>Unity使用dirty标记已改变并需要保存到磁盘中的数据</li>
+<li>每当一个属性变化时，Unity内置组件在内部调用setDirty，但MonoBehaviour和ScriptableObject不自动做这个，如果想要修改Scriptable或MonoBehaviour的值需要手动调用SetDirty并使用SaveAssets()保存在磁盘中</li>
+
+</ol>
+<h4 id='imgui-immediate-mode-gui-即时模式用户界面'>IMGUI immediate mode GUI 即时模式用户界面</h4>
+<ol start='' >
+<li>Unity 的 IMGUI 控件使用一个名为 <strong>OnGUI()</strong> 的特殊函数。只要启用包含脚本，就会在每帧调用 <strong>OnGUI()</strong> 函数，就像 <strong>Update()</strong> 函数一样。</li>
+<li><code>IMGUIContainer</code> UIElement that draw IMGUI content</li>
+
+</ol>
+<h4 id='invoke'>Invoke</h4>
+<ol start='' >
+<li><code>Invoke(&quot;&quot;,delay)</code>是Unity中的一种委托机制，支持延迟调用某个方法</li>
+<li><code>InvokeRepeating(&quot;&quot;,delay,duration)</code>可在一段调用后重复执行</li>
+
+</ol>
+<h4 id='unityevent'>UnityEvent </h4>
+<p>using UnityEngine.Event</p>
+<p>	Unity的事件系统，不同于C#中的事件的是，UnityEvent允许你在Inspector界面中可视化添加和修改（就像Button中的点击事件添加那样）</p>
+<h4 id='常用标签'>常用标签	</h4>
+<ol start='' >
+<li>[SerializeField] 将变量序列化，允许在Inspector中显示</li>
+<li>[System.Serializable] 将类转化为可序列化类型</li>
+<li>[HideInInspector] 在Inspector中隐藏</li>
+<li>[Header(&quot;&quot;)] 在Inspector中加入标签</li>
+<li>[RequireComponent] 绑定当前C#脚本与其他需要的组件</li>
+<li>[MenuItem()] 在Unity上方菜单栏中添加选项，紧跟static点击方法</li>
+<li>[CreateAssetMenu()] 添加创建资源选项，常用于ScriptableObject</li>
+<li>[Range(num,num)] 限制变量范围</li>
+
+</ol>
+<h3 id='c语法'>C#语法</h3>
+<h4 id='参数传递'>参数传递</h4>
+<ol start='' >
+<li>C# 中的类型一共分为两类，一类是值类型(Value Type)，一类是引用类型(Reference Type)。</li>
+<li>值类型包括结构体(struct)和枚举(enum)。</li>
+<li>引用类型包括类(class)、接口(interface)、委托(delegate)、数组(array)等。</li>
+<li>常见的简单类型如short、int、long、float、double、byte、char等其本质上都是结构体，对应struct System.Int16、System.Int32、System.Int64、System.Single、System.Double、Syetem.Byte、System.Char，因此它们都是值类型。但string和object例外，它们本质上是类，对应class System.String和System.Object，所以它们是引用类型。</li>
+
+</ol>
+<h4 id='事件与委托'>事件与委托</h4>
+<p><em>以委托listener，事件onValueChange举例</em></p>
+<h5 id='delegate的用法'>delegate的用法</h5>
+<ol start='' >
+<li>委托是特殊的类</li>
+<li>委托是对方法的抽象和封装。委托对象实质上代表了方法的引用（即内存地址），允许了将方法名作为参数来进行传递</li>
+<li>委托定义了可以订阅在event的方法的类型</li>
+<li>定义：
+<code>public delegate void listener();</code></li>
+
+</ol>
+<h5 id='delegate和event的区别'>delegate和event的区别</h5>
+<ol start='' >
+<li>event的触发<code>?.Invoke//?.不为空时调用，否则返回null</code> </li>
+<li>在定义处需要声明可以注册的委托类型</li>
+<li>event的触发会触发订阅的所有方法</li>
+<li>event事件只能使用&quot;+=“或”-=“进行订阅和取消订阅操作。不能进行“=”赋值操作。也即是说订阅了一个事件只能在通过”-=&quot;进行取消订阅，除此之外无其他方式。</li>
+<li>定义：
+<code>public event listener onValueChange;</code></li>
+
+</ol>
+<h5 id='特殊的delegate'>特殊的delegate</h5>
+<p><em>相当于已经定义好的委托类型</em></p>
+<ol start='' >
+<li><p>Action</p>
+<ol start='' >
+<li>定义时用<param>表示参数，如：<code>Action&lt;string,int&gt; action</code></li>
+<li>没有返回值</li>
+
+</ol>
+</li>
+<li><p>Func</p>
+<ol start='' >
+<li>同Action一样可以自定义参数，但是参数列表中一定有一个参数，代表返回值</li>
+<li>一定有返回值</li>
+
+</ol>
+</li>
+
+</ol>
+<h4 id='类型测试运算符和强制转换表达式--isastypeof'>类型测试运算符和强制转换表达式  is/as/typeof</h4>
+<ol start='' >
+<li><p><code>is</code> <code>is</code> 运算符检查表达式结果的运行时类型是否与给定类型兼容。 <code>is</code> 运算符还会对照某个模式测试表达式结果。</p>
+<pre><code class='language-c#' lang='c#'>E is T
+</code></pre>
+<p>&nbsp;</p>
+<p>如果表达式结果为非 null 并且满足以下任一条件，则 <code>is</code> 运算符将返回 <code>true</code>：</p>
+<ul>
+<li>表达式结果的运行时类型为 <code>T</code>。</li>
+<li>表达式结果的运行时类型派生自类型 <code>T</code>、实现接口 <code>T</code>，或者存在从其到 <code>T</code> 的另一种<a href='https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/language-specification/conversions#1028-implicit-reference-conversions'>隐式引用转换</a>。</li>
+<li>表达式结果的运行时类型是基础类型为 <code>T</code> 且 <a href='https://learn.microsoft.com/zh-cn/dotnet/api/system.nullable-1.hasvalue#system-nullable-1-hasvalue'>Nullable.HasValue</a> 为 <code>true</code> 的<a href='https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/nullable-value-types'>可为空值类型</a>。</li>
+<li>存在从表达式结果的运行时类型到类型 <code>T</code> 的<a href='https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/types/boxing-and-unboxing#boxing'>装箱</a>或<a href='https://learn.microsoft.com/zh-cn/dotnet/csharp/programming-guide/types/boxing-and-unboxing#unboxing'>取消装箱</a>转换。</li>
+
+</ul>
+</li>
+<li><p><code>as</code> as是一种安全的类型转换，当需要转化对象的类型属于转换目标类型或者转换目标类型的派生类型时，那么此转换操作才能成功，而且并不产生新的对象（当不成功的时候，会返回null）</p>
+</li>
+<li><p><code>typeof</code> 运算符用于获取某个类型的 <a href='https://learn.microsoft.com/zh-cn/dotnet/api/system.type'>System.Type</a> 实例。 <code>typeof</code> 运算符的实参必须是类型或类型形参的名称</p>
+</li>
+
+</ol>
+<h4 id='where'>where</h4>
+<ol start='' >
+<li><p>添加约束：包括基类约束、构造函数约束、接口约束、参数约束等</p>
+<pre><code class='language-c#' lang='c#'>public class FateherTest
+{
+}
+//where的用法 接口约束IComparable 和构造函数约束new(), 基类约束 FatherTest
+public class TestA&lt;T&gt; where T : FateherTest, IComparable, new()
+{
+}
+ 
+public class TestB
+{
+ //限制传递参数的类型必须继承IComparable 参数类型约束
+    public int Caculate&lt;T&gt;(T t) where T : IComparable
+    {
+        throw new NotImplementedException();
+    }
+}
+</code></pre>
+<p>&nbsp;</p>
+</li>
+<li><p>集合条件查询</p>
+</li>
+
+</ol>
+<h4 id='internalassembly'>internal、Assembly</h4>
+<p><a href='https://www.cnblogs.com/avin/p/6800321.html'>C#中的Internal关键字</a></p>
+<ol start='' >
+<li>C#中默认的访问权限（缺省public/private/internal...）为internal</li>
+<li>一个解决方案可以包含多个项目；一个项目就是一个程序集，体现为一个dll文件或exe文件</li>
+<li>限定只有在同一程序集<strong>Assembly</strong>中才可以访问</li>
+<li>Unity中添加的C# Script默认会编辑到Assembly-CSharp.dll中</li>
+
+</ol>
+<h4 id='lambda表达式'>Lambda表达式</h4>
+<p><a href='https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/operators/lambda-expressions'>Lambda 表达式 - Lambda 表达式和匿名函数 | Microsoft Learn</a></p>
+<ol start='' >
+<li><p>表达式lambda和语句lambda
+可以看作一个匿名函数，=&gt;前面表示参数，后面是函数体</p>
+<ul>
+<li><p>表达式lambda，返回表达式结果</p>
+<pre><code class='language-c#' lang='c#'>(input-parameters) =&gt; expression
+</code></pre>
+</li>
+<li><p>语句lambda，与表达式lambda类似，不过语句写在{}中，而且没有默认返回</p>
+<pre><code class='language-c#' lang='c#'>(input-parameters) =&gt; { &lt;sequence-of-statements&gt; }
+</code></pre>
+<p>&nbsp;</p>
+</li>
+
+</ul>
+</li>
+<li><p>在C# 6的版本里，=&gt;开始用于expression-bodied members（表达式主体定义），代码如下：</p>
+<pre><code class='language-c#' lang='c#'>public int MaxHealth1 =&gt; x ? y:z;
+</code></pre>
+<p>而这种语法，是一种Syntax Sugar，上面的代码等同于下面的：</p>
+<pre><code class='language-c#' lang='c#'>public int MaxHealth1
+{
+    get
+    {
+        return x ? y:z;
+    }
+}
+</code></pre>
+<p>每次取MaxHealth1时都相当于调用一次函数</p>
+<p>&nbsp;</p>
+<p>下列代码将实现每次变量被读取都将被计算(不是固定赋值)，状态为可读</p>
+<pre><code class='language-c#' lang='c#'>Vector2 travel =&gt; (Vector2)cam.transform.position - startPosition;
+
+</code></pre>
+<p>#### </p>
+</li>
+
+</ol>
+<h4 id='coroutine-协程的使用'>Coroutine 协程的使用</h4>
+<ol start='' >
+<li><p>在Unity程序中一般不会使用循环，是因为函数内的一切逻辑都会在同一帧内完成，所以需要使用到携程，使用协程，我们可以把一个跨越多帧的操作封装到一个方法内部。</p>
+</li>
+<li><p>定义：简单的说，协程就是一种特殊的函数，它可以主动的请求暂停自身并提交一个唤醒条件，Unity会在唤醒条件满足的时候去重新唤醒协程</p>
+</li>
+<li><p>使用协程，我们可以把一个跨越多帧的操作封装到一个方法内部</p>
+</li>
+<li><p>使用StartCoroutine()时可以接受其返回值，在禁用时传递该返回值</p>
+</li>
+<li><p>例子</p>
+<p>游戏里面经常会出现类似的淡入淡出效果：“一个游戏物体的颜色渐渐变淡，直至消失。” 当你碰上了类似的需求，也许需要实现一个<code>Fade()</code>来实现这样的淡入淡出效果。</p>
+<p>一个错误的实现是像这个样子的</p>
+<pre><code class='language-csharp' lang='csharp'>//错误实现
+void Fade() 
+{
+    float alpha = 1.0f;
+    while(alpha &gt; 0)
+    {
+        alpha -= Time.deltaTime;
+        Color c = renderer.material.color;
+        c.a = alpha;
+        renderer.material.color = c;
+    }
+}
+</code></pre>
+<p>这段代码的思路很简单：在函数中写一个循环，让渲染对象的alpha从1开始不断递减直至降为0。 但是，函数被调用后将运行到完成状态然后返回，函数内的一切逻辑都会在同一帧内完成。也就是说，上述<code>Fade</code>函数中的alpha从1递减到0的过程会在一帧内完成，如果你调用这个<code>Fade</code>函数，看到的将会是游戏物体瞬间消失，而不会渐渐淡出。</p>
+<p>要解决这个错误也很简单，只需将函数改写成协程即可。</p>
+<pre><code class='language-csharp' lang='csharp'>//正确实现
+IEnumerator Fade()
+{
+    float alpha = 1.0f;
+    while(alpha &gt; 0)
+    {
+        alpha -= Time.deltaTime;
+        Color c = renderer.material.color;
+        c.a = alpha;
+        renderer.material.color = c;
+        yield return null;//协程会在这里被暂停，直到下一帧被唤醒。
+    }
+}
+
+//Fade不能直接调用，需要使用StartCoroutine(方法名(参数列表))的形式进行调用。
+StartCoroutine(Fade());
+</code></pre>
+<p>像这种以<code>IEnumerator</code>为返回值的函数，在C#里面被称之为迭代器函数，在Unity里面也可以被称为协程函数。 当协程函数运行到<code>yield return null</code>语句时，协程会被暂停，unity继续执行其它逻辑，并在下一帧唤醒协程。</p>
+</li>
+
+</ol>
+<h4 id='类的数据---get与set访问器---链接'>类的数据 - get与set访问器   <a href='https://blog.csdn.net/alexhu2010q/article/details/87895274?spm=1001.2014.3001.5506'>链接</a></h4>
+<ol start='' >
+<li><p>get 允许访问，可以返回该数据类型的一个值（可以是私有变量），必须包含return</p>
+</li>
+<li><p>set 允许修改，可以通过value赋值类中的一个值（可以是私有变量）</p>
+</li>
+<li><p>通常通过添加判断条件，用于限定赋值范围</p>
+<pre><code class='language-c#' lang='c#'>public int Money  //属性
+    {
+        //GET访问器，可以理解成另类的方法，返回已经被赋了值的私有变量money
+        get { return money;  }
+        //SET访问器，将我们打入的值赋给私有变量money,并且加了限制，不能存负的
+        set
+        {
+            if (value &gt;= 0)
+            {
+                money = value;
+            }
+            else
+            {
+                money = 0; 
+            }
+        }
+    }  
+</code></pre>
+</li>
+
+</ol>
+<h4 id='--'>&lt; ?. &gt; </h4>
+<p>不为null时执行后面的操作。例如： </p>
+<ol start='' >
+<li><code>Person.Name?.Person.Code</code></li>
+<li><code>Person.Name = Person == null ? null : Person.Code //两段代码等效</code></li>
+
+</ol>
+<h4 id='systemtype'>system.Type</h4>
+<p>	允许将数据类型作为参数传递，对于想要通过传递不同的类类型来进行实例化很有帮助</p>
+<h4 id='-模板字符串'>$&quot;&quot; 模板字符串</h4>
+<ol start='' >
+<li>常见的格式化字符串方式为string.Format(&quot;......&quot;，params)，将变量用{index}表示，index表示&quot;&quot;之后参数列表的序号</li>
+<li>类似与string.Format的格式，C# 6.0提供了更加简洁的方式，$&quot;{表达式/变量}&quot;来支持格式化字符串</li>
+
+</ol>
+<h4>{}</h4>
+<p><a href='https://blog.csdn.net/beijinghorn/article/details/129599478'> C#，入门教程--各种括号</a></p>
+<p>	C#中{ }除了划分层次之外，还起到了限定局部变量的作用，该层次定义的变量只能用于该{}内</p>
+<h4 id='sort'>Sort</h4>
+<ol start='' >
+<li>类似于C++STL中的sort，C# list也支持自定义sort</li>
+<li>不同与C++中以返回true和false为准的排序规则，C#使用CamperaTo函数返回int类型，-1代表小于，1代表大于，0代表等于，而默认为升序排列，即以-1为准</li>
+
+</ol>
+<h3 id='常用的设计模式'>常用的设计模式</h3>
+<h4 id='对象池模式--input-system'>对象池模式  Input System</h4>
+<ol start='' >
+<li><p>本质是监查者模式，通过监听按键响应与自己添加的回调函数（在这里把自己定义的函数作为参数传递给按键相应事件）之间的订阅，实现操作</p>
+</li>
+<li><p>订阅方式：</p>
+<ol start='' >
+<li><code>InputSystemName.ActionMapName.ActionName.performed += (CallbackContext) =&gt; { }</code>
+perform为事件：<code>public event Action&lt;CallbackContext&gt; performed;</code>
+其中<code>CallbackContext</code>中包括按键信息，由按键响应传递</li>
+<li>通过<code>InputSystemName.ActionMapName.SetCallbacks(IActionMapNameActions instance)</code>为某个<code>action map</code>中的所有事件添加回调事件，由于参数为一个必须实现所有Action的接口，因此此方法适用于创建一个管理按键的类，储存一些按键相关的通用操作，让该类继承<code>IActionMapNameActions</code>的接口，并实现/管理所有Actions，这样使用此订阅方式时直接传递<code>this</code>参数即可</li>
+
+</ol>
+</li>
+<li><p>需要注意，<code>ActionMap</code>默认都为关闭状态，需要启用后再操作<code>InputSystemName.ActionMapName.onEnable()</code></p>
+</li>
+
+</ol>
+<h4 id='观察者模式'>观察者模式</h4>
+<ol start='' >
+<li><p>使用事件与委托实现</p>
+</li>
+<li><p>数值监听实例：</p>
+<pre><code class='language-c#' lang='c#'>using UnityEngine;
+
+/// &lt;summary&gt;
+/// 对数值的监听
+/// &lt;para&gt;@author reverie&lt;/para&gt;
+/// &lt;/summary&gt;
+[System.Serializable]
+public class Listener
+{
+    public delegate void listener(float val);
+    public event listener onBeginValueChanged;
+    public event listener onEndValueChanged;
+    [SerializeField] private float _beginTime = 0.0f;
+    [SerializeField] private float _endTime = 0.0f;
+    public float beginTime{
+        get{
+            return _beginTime;
+        }
+        set{
+            if(_beginTime == value) return;
+
+            onBeginValueChanged?.Invoke(value);
+            
+            _beginTime = value;
+        }
+    }
+    
+    public float endTime{
+        get{
+            return _endTime;
+        }
+        set{
+            if(_endTime == value) return;
+
+            onEndValueChanged?.Invoke(value);
+
+            _endTime = value;
+            
+        }
+    }
+
+}
+
+</code></pre>
+</li>
+
+</ol>
+<h4 id='工厂模式-factory-pattern'>工厂模式 Factory Pattern</h4>
+<ol start='' >
+<li>Unity中例如：UxmlFactory&lt;VisualElement, UxmlTraits&gt;使用的就是工厂模式：
+<em>Instantiates a VisualElement using the data read from a UXML file.</em></li>
+<li>一言蔽之就是，屏蔽用户对于实例化过程，只需要的接口处返回生成好的实例化对象</li>
+
+</ol>
+<h4 id='有限状态机-fsm'>有限状态机 FSM</h4>
+<ol start='' >
+<li>状态之间的相互转换</li>
+<li>问题在于想要加入新的状态时，可能需要更新（增加）多个其他状态向此状态的转换</li>
+
+</ol>
+<h4 id='分层状态机-hfsm'>分层状态机 HFSM</h4>
+<ol start='' >
+<li>思路为将复杂的状态划分为子状态机，上层状态机为下层状态机之间的转换</li>
+
+</ol>
+<h4 id='行为树-behaviour-tree'>行为树 Behaviour Tree</h4>
+<ol start='' >
+<li>由Halo开始提出，也是Unreal可视化编程的重要组成部分</li>
+<li>思路为从root开始，目前的状态信息唯一确定一个行为（叶子结点）</li>
+
+</ol>
+<h4 id='分层状态机-or-行为树-'>分层状态机 OR 行为树 ？</h4>
+<ol start='' >
+<li>分层状态机存在的问题：添加转变条件的硬性要求，使得状态的增减十分不自由</li>
+<li>行为树将状态判断条件、行为等拆解，然后通过树的形式组合</li>
+
+</ol>
+<p><a href='https://zhuanlan.zhihu.com/p/572485199'>Unity中的分层状态机和行为树（HFSM）</a></p>
+<p><a href='https://blog.csdn.net/qq_39885372/article/details/103950973'>(FSM（状态机）、HFSM（分层状态机）、BT（行为树）</a></p>
+<p>设计罐头技能？</p>
+<h3 id='可视化编程创建用户界面unity编辑器'>可视化编程/创建用户界面/Unity编辑器</h3>
+<p><em>定制Unity</em></p>
+<p><a href='https://www.zhihu.com/tardis/zm/art/124710337?source_id=1005'>UIElements 开发指南</a></p>
+<p><a href='https://docs.unity3d.com/2020.3/Documentation/Manual/UIToolkits.html'>Unity - 手动：创建用户界面 （UI） (unity3d.com)</a></p>
+<h4 id='editorwindow'>EditorWindow</h4>
+<p><em>用于实现自己的窗口界面（类似于hierarchy、inspector）</em></p>
+<ol start='' >
+<li><p>点击之后Unity自动为你生成三个文件：UXML、C#、USS</p>
+</li>
+<li><p>可以在Editor窗口中类似于树形结构那样添加元素（有父子关系），因此称之为UIElement Visual Tree（就像Hierary中展现的那样）</p>
+</li>
+<li><p>这三个文件都可以都窗口的元素进行编辑，但是用途不完全一样</p>
+</li>
+<li><p>C#文件用于加载UXML、USS文件，同时：</p>
+<pre><code class='language-c#' lang='c#'>// Each editor window contains a root VisualElement object
+VisualElement root = rootVisualElement;
+
+// VisualElements objects can contain other VisualElement following a tree hierarchy.
+VisualElement label = new Label(&quot;Hello World! From C#&quot;);
+root.Add(label);
+</code></pre>
+<p>&nbsp;</p>
+<ul>
+<li>使用MenuItem在菜单栏中添加打开窗口的选项操作，函数中通常包括创建窗口，命名窗口等初始化操作（使用MenuItem必须是静态函数static）</li>
+<li>CreateGUI在此窗口被创建时自动调用的函数，可以加载UXML、USS文件等加载元素，也可以直接添加各种元素，官方注解为：CreateGUI is called when the EditorWindow&#39;s rootVisualElement is ready to be populated.</li>
+<li><code>Add</code>：Add an element to this element&#39;s contentContainer</li>
+
+</ul>
+</li>
+<li><p>UXML创建各种元素，但可以在UI Builder插件中可视化添加，还可以添加C#元素（VisualElement）</p>
+<pre><code class='language-c#' lang='c#'>var visualTree = AssetDatabase.LoadAssetAtPath&lt;VisualTreeAsset&gt;(&quot;......&quot;);
+VisualElement labelFromUXML = visualTree.Instantiate();
+root.Add(labelFromUXML);
+</code></pre>
+<p>&nbsp;</p>
+</li>
+<li><p>USS（样式表）创建想要的style sheet，可以在创建的元素（VisualElement）上使用<code>SameVisualElementNode.styleSheets.Add(styleSheet)</code>添加特定样式</p>
+<pre><code class='language-c#' lang='c#'>var styleSheet = AssetDatabase.LoadAssetAtPath&lt;StyleSheet&gt;(&quot;......&quot;);
+VisualElement labelWithStyle = new Label(&quot;Hello World! With Style&quot;);
+labelWithStyle.styleSheets.Add(styleSheet);
+root.Add(labelWithStyle);
+</code></pre>
+</li>
+
+</ol>
+<h5 id='messages'>Messages</h5>
+<p><a href='https://docs.unity3d.com/ScriptReference/EditorWindow.html'>Unity - Scripting API: EditorWindow (unity3d.com)</a></p>
+<ol start='' >
+<li>OnGUI：简单理解为EditorWindow中的Update()，一般将自己编辑的GUI放在此函数中</li>
+<li>CreateGUI：当rootVisualElement创建好时调用，简单理解为Start()</li>
+<li>OnDestory：关闭窗口时调用</li>
+<li>OnselectionChange：窗口中选择的物体改变时调用</li>
+
+</ol>
+<h4 id='visualelement'>VisualElement</h4>
+<p><a href='https://docs.unity3d.com/2021.2/Documentation/Manual/UIB-structuring-ui-custom-elements.html'>Unity - 手动：使用自定义 （C#） 元素 (unity3d.com)</a></p>
+<ol start='' >
+<li><p>构成EditorWindow的基础元素</p>
+<p><em>Base class for objects that are part of the UIElements visual tree.</em></p>
+</li>
+<li><p>继承VisualElement允许在C# Script中添加到EditorWindow中</p>
+</li>
+<li><p>可视化：想要在UI Builder中使用自定义的C#元素（VisualElement子类）
+需要添加UxmlFactory（用于每次图像化拖拽添加时，Unity通过工厂实例化新的自定义元素），
+之后便可以在UI Builder-&gt;Library-&gt;Project-&gt;Custom Control(C#)中找到</p>
+<pre><code class='language-c#' lang='c#'>class MyElement : VisualElement
+{
+    public new class UxmlFactory : UxmlFactory&lt;MyElement, UxmlTraits&gt; { }
+}
+</code></pre>
+</li>
+
+</ol>
+<h4 id='graphview--visualelement-iselection'>GraphView : VisualElement, ISelection</h4>
+<p>可视化图形界面，继承了VisualElement</p>
+<ul>
+<li><p>可以通过<code>AddManipulator</code>添加操作GraphView的操作功能</p>
+</li>
+<li><p>使用时一般独占EditorWindow，作为<strong>画布</strong>使用</p>
+</li>
+<li><p>创建之后便可以<code>Add</code>GraphView到想要的EditorWindow中</p>
+</li>
+<li><p>想要在UI Builder中可视化添加元素（添加在UXML），同样需要在GraphView中创建UxmlFactory</p>
+<pre><code class='language-c#' lang='c#'>public new class UxmlFactory : UxmlFactory&lt;BehaviourTreeView,GraphView.UxmlTraits&gt; { }
+</code></pre>
+</li>
+
+</ul>
+<h4 id='unityeditorexperimentalgraphviewnode'>UnityEditor.Experimental.GraphView.Node</h4>
+<ol start='' >
+<li>自定义节点类需要继承于Node基类。自定义节点类可以编写任意属性，但是需要有一个GUID，唯一标识，用来区分节点</li>
+
+</ol>
+<h4 id='ui-builder-2'>UI Builder</h4>
+<ol start='' >
+<li>使用UI Builder可以轻松地将GraphView,VisualElement（C#）,以及Unity提供地一些基础元素组合起来</li>
+<li>UI Builder实际是在编辑一个UXML文件，因此使用时，初始化窗口注意加载对应UXML文件</li>
+<li>可以在编辑UXML文件时，添加USS文件来增添样式，自动添加<code>&lt;Style src = &quot;......&quot;/&gt;</code>语句挂载到UXML中</li>
+<li>注意预览（Viewport）展示地时UXML为rootViewElement情况下地结果，要想在EditorWindow下有相同地效果需要使用<code>CloneTree</code>修改EditorWindow的根元素</li>
+
+</ol>
+<h4 id='undoredo'>Undo/Redo</h4>
+<p><a href='https://blog.csdn.net/qq_36622009/article/details/115615387'>Unity编辑器开发</a></p>
+<p><a href='https://docs.unity.cn/cn/current/ScriptReference/Undo.html'>UnityEditor.Undo - Unity 脚本 API</a></p>
+<ol start='' >
+<li><p>Unity中Undo维护一个stack，UnityEditor.Undo提供一系列方法记录属性在撤销堆栈上</p>
+</li>
+<li><p>常用操作：</p>
+<ol start='' >
+<li><p>Undo.undoRedoPerformed 此事件执行撤销或重做后触发的回调</p>
+</li>
+<li><p>修改单个属性：</p>
+<ul>
+<li>RecordObject录制物体接下来的操作，Unity在通常标志着操作结束的某些其他事件之后会自动添加FlushUndoRecordObject停止录制，需要注意的是在遇到RegisterCreatedObjectUndo语句时会停止</li>
+<li>撤销时将Undo记录的一系列有关该物体的操作</li>
+
+</ul>
+<pre><code class='language-c#' lang='c#'>Undo.RecordObject (myGameObject.transform, &quot;Zero Transform Position&quot;);
+myGameObject.transform.position = Vector3.zero;
+</code></pre>
+</li>
+<li><p>添加组件：</p>
+<pre><code class='language-c#' lang='c#'>Undo.AddComponent&lt;RigidBody&gt;(myGameObject);
+</code></pre>
+</li>
+
+</ol>
+</li>
+
+</ol>
+<p>      </p>
+<ol start='4' >
+<li><p>创建新的游戏对象：</p>
+<ul>
+<li>撤销时将销毁该物体</li>
+
+</ul>
+<pre><code class='language-c#' lang='c#'>var go = new GameObject();
+Undo.RegisterCreatedObjectUndo (go, &quot;Created go&quot;);
+</code></pre>
+</li>
+
+</ol>
+<p>      </p>
+<ol start='5' >
+<li><p>销毁游戏对象或组件：</p>
+<pre><code class='language-c#' lang='c#'>Undo.DestroyObjectImmediate (myGameObject);
+</code></pre>
+</li>
+
+</ol>
+<p>      </p>
+<ol start='6' >
+<li><p>更改变换组件的父子化：</p>
+<pre><code class='language-c#' lang='c#'>Undo.SetTransformParent (myGameObject.transform, newTransformParent, &quot;Set new parent&quot;);
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</li>
+
+</ol>
+<h3 id='常用操作的具体实现'>常用操作的具体实现</h3>
+<p>&nbsp;</p>
+</body>
+</html>
