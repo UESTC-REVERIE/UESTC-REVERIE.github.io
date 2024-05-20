@@ -24,19 +24,21 @@
 }
 
 .box0 .content h1 {
-    font-size: 52px;
+    font-family: "ZCOOL XiaoWei", sans-serif;
+    font-size: 38px;
     font-weight: 700;
     line-height: 1.6;
 }
 
 .box0 .content h3 {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Jaro", sans-serif;
     font-size: 32px;
     font-weight: 700;
-    color: var(--font-primary-color);
+    color: #1aa5a5;
 }
 
 .box0 .content p {
+    font-family: 'Courier New', Courier, monospace;
     font-size: 19px;
     margin: 20px 0 40px;
     line-height: 1.2;
