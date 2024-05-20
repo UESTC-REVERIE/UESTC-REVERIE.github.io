@@ -1,1 +1,2 @@
-UESTC-REVERIE.github.io
+> ![NOTE]
+> https://uestc-reverie.github.io
