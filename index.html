@@ -1,51 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVERIE Self-Github Blog Pages</title>
-    <link rel="icon" href="img/icon.ico" type ="image/x-icon">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    <style>
-        html{
-            height: 100%;
-        }
-        body {
-            background-color: rgba(165, 42, 42, 0.64);
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            opacity: 0.8;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>Reverie的个人网站</title>
+    <link rel="stylesheet" href="style-main.css">
+    <link rel="stylesheet" href="style-box0.css">
+    <link rel="stylesheet" href="style-box1.css">
+    <link rel="stylesheet" href="style-box2.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
+
 <body>
-    <div class="container">
-        <div class="jumbotron">
-            <div class="container">
-                <h1>Welcome REVERIE's Website!</h1>
-                <p>这里是reverie的个人网站，更多信息请往下继续浏览，站点由Github Pages提供！</p>
-                    <small>📫邮箱地址：reverie.phm@outlook.com <li><a href="https://github.com/UESTC-REVERIE">GitHub</a></li></small>
+    <header class="header">
+        <div class="logobox">
+            <a href=""><img src="src/img/logo.png" class="logo"></a>
+            <div class="hrefbar">
+                <a href="https://uestc-reverie.github.io" class="logo-text">Reverie</a>
+                <a href="https://github.com/UESTC-REVERIE" class="href" onclick="copyToClipboard(this)"><i class='bx bxl-github'></i> uestc-reverie</a>
+                <a href="" class="href" onclick="copyToClipboard(this)"><i class='bx bxs-envelope'></i> reverie.phm@outlook.com</a>
             </div>
         </div>
-        <h3>学习笔记  <small>by typora</small></h3>
-        <ul class="list-group">
-            <li class="list-group-item"><a href="subHTML/UNITY开发笔记.html">Unity开发笔记</a></li>
-            <li class="list-group-item"><a href="subHTML/Linux.html">Linux学习笔记</a></li>
-            <li class="list-group-item"><a href="subHTML/IoT笔记.html">IoT笔记</a></li>
-            <li class="list-group-item"><a href="subHTML/pyautogui Using Help.html">pyautogui Using Help</a></li>
-            <li class="list-group-item"><a href="subHTML/GitHub Using Help.html">GitHub Using Help</a></li>
+        
+        
 
-        </ul>
-        <h3>其他资源</h3>
-        <div class="links">
-            <li class="list-group-item"><a href="https://github.com/UESTC-REVERIE/Android_Audio_Cliper">AudioClip</a>  基于Unity开发的Android音频剪辑软件</li>
-            <li class="list-group-item"><a href="video/MD_Game_Video.html">Video</a>  Mass Deviation基于Unity开发中的独立游戏</li>
-            <li class="list-group-item"><a href="video/AI_NPC_Video">Video</a>  Unity调用gpt-3.5-turbo的demo</li>
-            <li class="list-group-item"><a href="https://github.com/UESTC-REVERIE/Game_Project_1">Game Project</a>  课设：C/C++开发的文字追逐游戏</li>
-            <li class="list-group-item"><a href="https://github.com/UESTC-REVERIE/Tetris">Game Project</a>  课设：C/C++开发的俄罗斯方块游戏</li>
+        <nav class="navbar">
+            <a href="#" class="active">项目经历</a>
+            <a href="#">我的博客</a>
+            <a href="#">课程设计</a>
+        </nav>
+    </header>
+
+    <section class="boxes">
+        <div class="box0">
+            <div class="content">
+                <h1>项目标题</h1>
+                <h3>2023.1.1 - 2024.1.1</h3>
+                <p>项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。</p>
+                <div class="btn-box">
+                    <a href="#">博客/源码</a>
+                    <a href="#">更多</a>
+                </div>
+            </div>
             
+            <div class="image-content">
+                <img src="src/img/logo.png" class="image">
+            </div>
         </div>
-    </div>
+
+        <div class="box1">
+            <div class="image-content">
+                <img src="src/img/logo.png" class="image">
+            </div>
+
+            <div class="content">
+                <h1>项目标题</h1>
+                <h3>2023.1.1 - 2024.1.1</h3>
+                <p>项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。项目简介。</p>
+            </div>
+            
+            <div class="btn-box">
+                <a href="#">博客/源码</a>
+                <a href="#">更多</a>
+            </div>
+        </div>
+
+
+        <!-- <div class="box2">
+            <div class="content">
+                <h1>项目标题</h1>
+                <h3>2023.1.1 - 2024.1.1</h3>
+                <p>项目简介。</p>
+                <div class="btn-box">
+                    <a href="#">博客/源码</a>
+                    <a href="#">更多</a>
+                </div>
+            </div>
+            
+            <div class="image-content">
+                <img src="src/img/logo.png" class="image">
+            </div>
+        </div> -->
+    </section>
+    <script src = "src/js/main.js"></script>
 </body>
+
 </html>
