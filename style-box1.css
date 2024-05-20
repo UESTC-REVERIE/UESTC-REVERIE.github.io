@@ -11,7 +11,7 @@
     flex-direction: column;
     background: #192655;
     width: 400px;
-    height: 600px;
+    /* height: 600px; */
     border: 2px solid #192655;
     border-radius: 8px;
     padding: 10px 20px;
@@ -28,18 +28,18 @@
 }
 
 .box1 .content h3 {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 24px;
+    font-family: "Jaro", sans-serif;
+    font-size: 32px;
     font-weight: 700;
     color: var(--font-primary-color);
 }
 
 .box1 .content p {
-    /* border: 2px solid greenyellow; */
+    font-family: 'Courier New', Courier, monospace;
     color: whitesmoke;
     font-size: 19px;
     margin: 20px 0 40px;
-    line-height: 1.2;
+    line-height: 1.4;
 }
 
 .box1 .btn-box {
@@ -52,17 +52,35 @@
     /* border: 2px solid greenyellow; */
 }
 
-.box1 .image-content {
+.banner-container{
+	height: 170px;
     width: 100%;
     padding: 20px 10px;
-    justify-content: center;
+	overflow: hidden;
+	position: relative;
 }
+
+.box1 .image-content {
+    display: flex;
+    transition: transform 0.5s ease; /* 平滑过渡效果 */
+}
+
 .box1 .image {
+    transition: opacity 0.5s ease; /* 透明度的过渡效果 */
+    opacity: 0; /* 默认设置为不可见 */
     height: 150px;
-    width: 100%;
     object-fit: cover;
-    object-position: 0 -100px;
+    /* object-position: 0 0px; */
     border-radius: 8px;
+}
+
+/* 默认显示第一张图片 */
+.box1 .image:first-child {
+    opacity: 1;
+}
+.box1 .button {
+    position: absolute;
+    z-index: 10;
 }
 .box1 .btn-box a {
     position: relative;
@@ -115,4 +133,31 @@
     background: #192655;
     z-index: -1;
     transition: .5s;
+}
+
+@keyframes run {
+	0%,10%{
+		/* margin-left: 0; */
+		transform: translateX(0);
+	}
+	20%,30%{
+		/* margin-left: -1200px;; */
+		transform: translateX(-360px);
+	}
+	40%,50%{
+		/* margin-left: -2400px; */
+		transform: translateX(-720px);
+	}
+	60%,70%{
+		/* margin-left: -3600px; */
+		transform: translateX(-1080px);
+	}
+	80%,90%{
+		/* margin-left: -4800px; */
+		transform: translateX(-1440px);
+	}
+	100%{
+		/* margin-left: 0; */
+		transform: translateX(0);
+	}
 }
