@@ -1,7 +1,4 @@
 import * as THREE from 'three';
-import {OBJLoader} from 'three/addons/loaders/OBJLoader.js'
-import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
-import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import {PLYLoader} from 'three/addons/loaders/PLYLoader.js'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 // 添加进度条
