@@ -86,8 +86,17 @@
             </div>
         </div>
     </section>
+    <script type="importmap">
+		{
+			"imports": {
+				"three": "/src/js/three/build/three.module.js",
+				"three/addons/": "/src/js/three/examples/jsm/"
+			}
+		}
+	</script>
     <script src = "src/js/main.js"></script>
-    <script src = "src/js/slider.js"></script>
+    <script type = "module" src = "src/js/box0_model.js"></script>
+    <script src = "src/js/box1_slider.js"></script>
 </body>
 
 </html>
