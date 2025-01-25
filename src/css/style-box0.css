@@ -1,0 +1,132 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Ma Shan Zheng", cursive;
+}
+
+.box0 {
+    display: flex;
+    flex-direction:column;
+    align-items: stretch;
+    background: #E1AA74;
+    width: 700px;
+    border: 2px solid #E1AA74;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-right: 60px;
+}
+
+.box0 .content {
+    /* flex: 1; */
+    width: 60%;
+}
+.box0 .box0-1 {
+    display: flex;
+    flex-direction : row;
+}
+.box0 h1 {
+    font-family: "ZCOOL XiaoWei", sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.box0 .content h3 {
+    font-family: "Jaro", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1aa5a5;
+}
+
+.box0 .content p {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 19px;
+    margin: 20px 0 40px;
+    line-height: 1.2;
+}
+
+.box0 .content .btn-box {
+    display: flex;
+    /* justify-content: space-between; */
+    justify-content: center;
+    width: 90%;
+    height: 50px;
+    background: #E1AA74;
+    margin-bottom: 20px;
+
+}
+
+.box0 .image-content {
+    display: flex;
+    flex: 1;
+    padding: 20px 10px 20px 20px;
+    justify-content: space-between;
+    align-items: center; /* 垂直居中 */
+    flex-direction: column; /* 将内容垂直排列 */
+    /* border: 1px solid #ccc;*/
+}
+.box0 .image-content * {
+    width: 100%;
+    min-width: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.box0 .image-content .image-description {
+    font-size: 12px; /* 小字 */
+    color: #666; /* 灰色文字 */
+    text-align: center; /* 文字居中 */
+}
+.box0 .btn-box a {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 100%;
+    background: var(--font-primary-color);
+    border: 2px solid var(--font-primary-color);
+    border-radius: 8px;
+    font-size: 19px;
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.box0 .btn-box a:nth-child(2) {
+    background: transparent;
+    color: var(--font-primary-color);
+}
+
+.box0 .btn-box a:nth-child(2):hover {
+    color: black;
+}
+
+.box0 .btn-box a:nth-child(2)::before {
+    background: var(--font-primary-color);
+}
+
+
+.box0 .btn-box a:hover {
+    color: var(--font-primary-color);
+}
+
+.box0 .btn-box a:hover::before {
+    width: 100%;
+}
+
+.box0 .btn-box a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #E1AA74;
+    z-index: -1;
+    transition: .5s;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>Reverie的个人主页</title>
+    <link rel="icon" type="image/png" href="src/img/logo.png">
+    <link rel="stylesheet" href="src/css/style-main.css">
+    <link rel="stylesheet" href="src/css/style-box0.css">
+    <link rel="stylesheet" href="src/css/style-box1.css">
+    <link rel="stylesheet" href="src/css/style-box2.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logobox">
+            <a href=""><img src="src/img/logo.png" class="logo"></a>
+            <div class="hrefbar">
+                <a href="https://uestc-reverie.github.io" class="logo-text">Reverie</a>
+                <a href="https://github.com/UESTC-REVERIE" class="href" onclick="copyToClipboard(this)"><i class='bx bxl-github'></i> uestc-reverie</a>
+                <a href="" class="href" onclick="copyToClipboard(this)"><i class='bx bxs-envelope'></i> reverie.phm@outlook.com</a>
+            </div>
+        </div>
+        
+        
+
+        <nav class="navbar">
+            <a href="" class="active">项目经历</a>
+            <a href="">我的博客</a>
+            <a href="">课程设计</a>
+        </nav>
+    </header>
+
+    <section class="boxes">
+        <div class="box0">
+            <h1>基于NeRF的3D模型重建以及HarmonyOS客户端应用</h1>
+            <div class="box0-1">
+                <div class="content">
+                    <h3>2024.1 - 2023.4</h3>
+                    <p>
+                        实现手机拍照场景下的高质量 3D 重建，该项目使用 LoFTR 网络进行特征点匹配，推算出相机位姿后基于 NeRF 网络学习 3D 模型信息，可以真实反应光照、模型纹理等信息。使用 C/S 架构完成鸿蒙应用开发，由服务器完成网络训练和模型重建，在客户端实现实时交互的模型推理。于华为ICT(Information and Communications Technology)大赛2023 - 2024中国区创新赛总决赛中获二等奖。
+                    </p>
+                    <div class="btn-box">
+                        <a href="https://github.com/UESTC-REVERIE/ICT_client"><i class='bx bxl-github'></i> 代码</a>
+                        <!-- <a href="#">项目展示</a> -->
+                    </div>
+                </div>
+                
+                <div class="image-content" id="preview">
+                    <!-- <img src="src/img/logo.png" class="image"> -->
+                    <!-- <progress id="progressBar" value="0" max="100"></progress> -->
+                    <footer class="image-description">交互模型展示</footer>
+                </div>
+            </div>
+        </div>
+
+        <div class="box1">
+            <div class="banner-container">
+                <div class="image-content">
+                    <img src="src/img/box1/1.png" class="image" style="object-position: 0 0px;">
+                    <img src="src/img/box1/2.png" class="image" style="object-position: 0 -25px;">
+                    <img src="src/img/box1/3.png" class="image" style="object-position: 0 -35px;">
+                    <img src="src/img/box1/4.png" class="image" style="object-position: 0 0px;">
+                    <img src="src/img/box1/5.png" class="image" style="object-position: 0 0px;">
+                </div>
+            </div>
+            
+            <div class="content">
+                <h1>锤剪布！</h1>
+                <h3>2023.10 - 2023.12</h3>
+                <p>
+                    使用Unity制作的一款像素风平台动作游戏，从最简单的元素对抗（锤剪布）作为思路入手，根据策划故事背景制作了一套完整、好玩的战斗系统，用时间流逝、昼夜交替作为游戏核心循环，参加“2023年吉比特高校游戏开发联盟Game Jam挑战赛”，并入围全国决赛。
+                </p>
+
+                <p>
+                    在项目中参与了游戏整体核心循环和故事背景的策划与基于此的存档机制的实现，负责多个场景BOSS和场景内敌人AI的设计与实现，以及基础操作的设计与实现：玩家/敌人/元素与元素之间的交互效果、弹反/完美弹反的奖励机制等等。
+                </p>
+            </div>
+            
+            <div class="btn-box">
+                <!-- <a href="#">博客</a> -->
+                <a href="sub/box1_subpage.html">更多</a>
+            </div>
+        </div>
+    </section>
+    <script type="importmap">
+		{
+			"imports": {
+				"three": "/src/js/three/build/three.module.js",
+				"three/addons/": "/src/js/three/examples/jsm/"
+			}
+		}
+	</script>
+    <script src = "src/js/main.js"></script>
+    <script type = "module" src = "src/js/box0_model.js"></script>
+    <script src = "src/js/box1_slider.js"></script>
+</body>
+
+</html>
