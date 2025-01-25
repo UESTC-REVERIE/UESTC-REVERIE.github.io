@@ -61,7 +61,7 @@ scene.background = new THREE.Color('#E1AA74')
 
 var url = window.location.href
 var previewName = url.split('/').pop()
-const objectUrl = 'src/model/ict.ply'
+const objectUrl = '/src/model/ICT.ply'
 {
     const plyLoader = new PLYLoader()
     plyLoader.load(objectUrl, 
