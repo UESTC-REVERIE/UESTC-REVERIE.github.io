@@ -87,7 +87,10 @@ figure {
 	margin: 1.25em 0;
 	page-break-inside: avoid;
 }
-
+video {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
 figcaption {
 	opacity: 0.5;
 	font-size: 85%;
