@@ -10,11 +10,19 @@ html {
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
 }
-
+:root {
+    --header-color: #3877bfe1;
+    --background-color: #F3F0CA;
+    --font-primary-color: #61C0BF;
+}
 html,
 body {
 	margin: 0;
 	padding: 0;
+	background: var(--background-color);
+}
+body::-webkit-scrollbar {
+    display: none;
 }
 @media only screen {
 	body {
